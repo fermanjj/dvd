@@ -1,5 +1,4 @@
 let dvd = document.getElementById('dvd');
-let interval_id;
 let x_incr = 1;
 let y_incr = 1;
 
@@ -7,7 +6,7 @@ function init() {
   update_color();
   dvd.style.position = 'absolute';
   document.body.style.background = '#4d4d4d';
-  setInterval(frame, 5);
+  animate();
 }
 
 function update_color() {
@@ -33,10 +32,11 @@ function handle_collision() {
   }
 }
 
-function frame() {
+function animate() {
   handle_collision();
-  dvd.style.top = dvd.offsetTop + y_incr;
-  dvd.style.left = dvd.offsetLeft + x_incr;
+  dvd.style.top = dvd.offsetTop + y_incr + 'px';
+  dvd.style.left = dvd.offsetLeft + x_incr + 'px';
+  requestAnimationFrame(animate);
 }
 
 init();
