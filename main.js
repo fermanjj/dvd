@@ -1,6 +1,6 @@
 let dvd = document.getElementById('dvd');
-let x_incr = 1;
-let y_incr = 1;
+let x_incr = 3;
+let y_incr = 3;
 
 function init() {
   update_color();
