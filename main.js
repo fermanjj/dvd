@@ -1,42 +1,52 @@
-let dvd = document.getElementById('dvd');
-let interval_id;
-let x_incr = 1;
-let y_incr = 1;
+const colors = ['red', 'green', 'blue', 'white', 'yellow', 'purple', 'black'];
+const dvd = document.getElementById('dvd');
+let x_incr = 5;
+let y_incr = 5;
 
 function init() {
-  update_color();
-  dvd.style.position = 'absolute';
-  document.body.style.background = '#4d4d4d';
-  setInterval(frame, 5);
+    update_color();
+    dvd.style.position = 'absolute';
+    document.body.style.background = '#4d4d4d';
+    dvd.style.top = `${x_incr}px`;
+    dvd.style.left = `${y_incr}px`;
+
+    // animate the logo
+    requestAnimationFrame(animate);
 }
 
+// Change the color of the DVD logo
 function update_color() {
-  let color = Math.round((Math.random() * 100));
-  dvd.style.fill = `hsl(${color},100%,50%)`;
+    const currentColorIndex = colors.indexOf(dvd.style.fill);
+    dvd.style.fill = colors[(currentColorIndex + 1) % colors.length];
 }
 
 function handle_collision() {
-  let dvd_height = dvd.offsetHeight;
-  let dvd_width = dvd.offsetWidth;
-  let left = dvd.offsetLeft;
-  let top = dvd.offsetTop;
-  let win_height = window.innerHeight;
-  let win_width = window.innerWidth;
+    const dvd_height = dvd.offsetHeight;
+    const dvd_width = dvd.offsetWidth;
+    const dvd_top = dvd.offsetTop;
+    const dvd_left = dvd.offsetLeft;
+    const win_height = window.innerHeight;
+    const win_width = window.innerWidth;
 
-  if (left <= 0 || left + dvd_width >= win_width) {
-    x_incr = ~x_incr + 1;
-    update_color();
-  }
-  if (top <= 0 || top + dvd_height >= win_height) {
-    y_incr = ~y_incr + 1;
-    update_color();
-  }
+    if (dvd_left <= 0 || dvd_left + dvd_width >= win_width) {
+        // reverse x_incr
+        x_incr = -x_incr;
+        update_color();
+    }
+
+    if (dvd_top <= 0 || dvd_top + dvd_height >= win_height) {
+        // reverse y_incr
+        y_incr = -y_incr;
+        update_color();
+    }
 }
 
-function frame() {
-  handle_collision();
-  dvd.style.top = dvd.offsetTop + y_incr;
-  dvd.style.left = dvd.offsetLeft + x_incr;
+function animate() {
+    handle_collision();
+    dvd.style.top = `${dvd.offsetTop + y_incr}px`;
+    dvd.style.left = `${dvd.offsetLeft + x_incr}px`;
+
+    requestAnimationFrame(animate);
 }
 
 init();
